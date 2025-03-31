@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path, include, re_path
+from django.urls import path, include
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework.permissions import AllowAny
@@ -18,7 +18,7 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     # Swagger UI for API documentation
-    re_path(r'^$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 
     # Admin site
     path('admin/', admin.site.urls),
@@ -26,5 +26,6 @@ urlpatterns = [
     # Authentication app URLs
     path('accounts/', include('authentication.urls')),  # Changed auth/ to accounts/
 
-    # Add more app URLs here as you go
+    # Plants app URLs
+    path('plants/', include('plants.urls')),  # Link plants app
 ]
