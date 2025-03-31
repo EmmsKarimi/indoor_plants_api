@@ -31,4 +31,7 @@ urlpatterns = [
 
     # Maintenance app URLs
     path('maintenance/', include('maintenance.urls')),  # Link maintenance app
+
+    # Orders app URLs
+    path('orders/', include('orders.urls')),  # Link orders app
 ]

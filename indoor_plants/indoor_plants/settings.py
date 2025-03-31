@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'authentication',
     'plants',
     'maintenance',
+    'orders',
 ]
 
 AUTH_USER_MODEL = 'authentication.User'
