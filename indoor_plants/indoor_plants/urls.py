@@ -24,8 +24,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # Authentication app URLs
-    path('accounts/', include('authentication.urls')),  # Changed auth/ to accounts/
+    path('accounts/', include('authentication.urls')),
 
     # Plants app URLs
-    path('plants/', include('plants.urls')),  # Link plants app
+    path('plants/', include('plants.urls')),
+
+    # Maintenance app URLs
+    path('maintenance/', include('maintenance.urls')),  # Link maintenance app
 ]
