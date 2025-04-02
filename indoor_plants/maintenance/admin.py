@@ -3,6 +3,6 @@ from .models import Maintenance
 
 @admin.register(Maintenance)
 class MaintenanceAdmin(admin.ModelAdmin):
-    list_display = ('id', 'plant', 'task', 'scheduled_date', 'completed')
-    list_filter = ('scheduled_date', 'completed')
-    search_fields = ('plant__name', 'task')
+    list_display = ('id', 'plant', 'task_description', 'scheduled_date', 'status')  # Use correct fields
+    list_filter = ('scheduled_date', 'status')  # Use 'status' instead of 'completed'
+    search_fields = ('plant__name', 'task_description')  # Correct search fields
