@@ -3,6 +3,6 @@ from .models import Plant
 
 @admin.register(Plant)
 class PlantAdmin(admin.ModelAdmin):
-    list_display = ('name', 'owner')  # Removed 'species' and 'date_added'
-    search_fields = ('name', 'species')  # 'species' might also be removed
-    list_filter = ('owner',)  # Removed 'date_added'
+    list_display = ('name', 'owner', 'created_at')  # Removed 'species'
+    search_fields = ('name',)
+    list_filter = ('created_at', 'owner')  # Corrected filter field
