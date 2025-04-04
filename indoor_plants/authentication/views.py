@@ -1,4 +1,5 @@
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -6,6 +7,7 @@ from rest_framework import status
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token  # Import Token model for token authentication
+from rest_framework.permissions import AllowAny
 
 User  = get_user_model()  # Get the custom User model
 
@@ -28,6 +30,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 # Register View for handling user registration
 class RegisterView(APIView):
+    permission_classes = [AllowAny]  # Allow any user to access this view
     def post(self, request):
         serializer = RegisterSerializer(data=request.data)  # Initialize serializer with request data
         if serializer.is_valid():
@@ -37,15 +40,15 @@ class RegisterView(APIView):
 
 # Login View for handling user login and returning a token
 class LoginView(APIView):
+    permission_classes = [AllowAny]  # Allow any user to access this view
     def post(self, request):
-        username = request.data.get('username')  # Get username from request data
-        password = request.data.get('password')  # Get password from request data
-        user = authenticate(username=username, password=password)  # Authenticate user
+        username = request.data.get('username')
+        password = request.data.get('password')
+        user = authenticate(username=username, password=password)
         if user is not None:
-            login(request, user)  # Log the user in
-            token, created = Token.objects.get_or_create(user=user)  # Get or create a token for the user
-            return Response({"token": token.key}, status=status.HTTP_200_OK)  # Return the token
-        return Response({"error": "Invalid credentials"}, status=status.HTTP_400_BAD_REQUEST)  # Return error if invalid
+            token, _ = Token.objects.get_or_create(user=user)
+            return Response({"token": token.key}, status=status.HTTP_200_OK)
+        return Response({"error": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
 
 # Profile View for retrieving user profile (requires authentication)
 class ProfileView(APIView):

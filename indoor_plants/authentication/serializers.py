@@ -20,6 +20,14 @@ class UserSerializer(serializers.ModelSerializer):
         return value
 
     def create(self, validated_data):
+        # Check for existing username
+        if User.objects.filter(username=validated_data['username']).exists():
+            raise serializers.ValidationError({"username": "This username is already taken."})
+        
+        # Check for existing email
+        if User.objects.filter(email=validated_data['email']).exists():
+            raise serializers.ValidationError({"email": "This email is already registered."})
+        
         # Create a new user with the validated data
         user = User.objects.create_user(**validated_data)  # Use create_user to hash the password
         return user
