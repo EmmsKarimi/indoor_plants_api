@@ -5,23 +5,25 @@ from .models import Order
 from .serializers import OrderSerializer
 
 class OrderListCreateView(generics.ListCreateAPIView):
-    permission_classes = [IsAuthenticated]
-    serializer_class = OrderSerializer
+    """Handles listing and creating orders for the authenticated user."""
+    permission_classes = [IsAuthenticated]  # Ensure only authenticated users can access this view
+    serializer_class = OrderSerializer  # Specify the serializer to use
 
     def get_queryset(self):
-        # Ensure the user only sees their own orders
-        return Order.objects.filter(user=self.request.user)
+        """Return only orders owned by the authenticated user."""
+        return Order.objects.filter(user=self.request.user)  # Filter orders by the logged-in user
 
     def perform_create(self, serializer):
-        # Set the user to the logged-in user automatically when creating an order
-        serializer.save(user=self.request.user)
+        """Assign the logged-in user as the user when creating an order."""
+        serializer.save(user=self.request.user)  # Save the order with the current user as the owner
 
 
 class OrderDetailView(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAuthenticated]
-    serializer_class = OrderSerializer
-    queryset = Order.objects.all()
+    """Handles retrieving, updating, and deleting an order."""
+    permission_classes = [IsAuthenticated]  # Ensure only authenticated users can access this view
+    serializer_class = OrderSerializer  # Specify the serializer to use
+    queryset = Order.objects.all()  # Get all orders
 
     def get_queryset(self):
-        # Ensure the user only accesses their own orders
-        return Order.objects.filter(user=self.request.user)
+        """Ensure users can only access their own orders."""
+        return Order.objects.filter(user=self.request.user)  # Filter orders by the logged-in user
