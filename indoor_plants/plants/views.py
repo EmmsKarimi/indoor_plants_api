@@ -1,11 +1,11 @@
 from rest_framework import generics, permissions
 from .models import Plant
 from .serializers import PlantSerializer
-
+from rest_framework.permissions import IsAuthenticated
 class PlantListCreateView(generics.ListCreateAPIView):
     """Handles listing and creating plants owned by the authenticated user."""
     serializer_class = PlantSerializer  # Specify the serializer to use
-    permission_classes = [permissions.IsAuthenticated]  # Ensure only authenticated users can access this view
+    permission_classes = [IsAuthenticated]  # Only authenticated users can access this view
 
     def get_queryset(self):
         """Return only plants owned by the authenticated user, optimizing queries."""
@@ -18,7 +18,7 @@ class PlantListCreateView(generics.ListCreateAPIView):
 class PlantDetailView(generics.RetrieveUpdateDestroyAPIView):
     """Handles retrieving, updating, and deleting a plant."""
     serializer_class = PlantSerializer  # Specify the serializer to use
-    permission_classes = [permissions.IsAuthenticated]  # Ensure only authenticated users can access this view
+    permission_classes = [IsAuthenticated]  # Only authenticated users can access this view
 
     def get_queryset(self):
         """Ensure users can only access their own plants."""

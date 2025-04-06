@@ -17,10 +17,11 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    # Swagger UI for API documentation
+   # Swagger UI (accessible at both root / and /swagger/)
     path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    
-    # OpenAPI schema (accessible at /openapi/)
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='swagger-ui'),
+
+    # OpenAPI schema (JSON view)
     path('openapi/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
 
     # Admin site
